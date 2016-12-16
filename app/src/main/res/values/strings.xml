@@ -1,0 +1,5 @@
+<resources>
+    <string name="app_name">GameLogin</string>
+    <string name="facebook_app_id">220013128438741</string>
+    <string name="logout">Logout</string>
+</resources>
