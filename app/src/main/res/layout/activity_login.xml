@@ -1,63 +1,58 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
+    android:layout_height="wrap_content"
     android:paddingBottom="@dimen/activity_vertical_margin"
     android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
-    tools:context="com.example.user.gamelogin.LoginActivity">
+    tools:context="com.example.user.gamelogin.LoginActivity"
+    android:orientation="vertical">
 
 
-
-
-    <Button
-        android:text="註冊"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/signbtn"
-        android:layout_marginTop="81dp"
-        android:layout_below="@+id/passwordtext"
-        android:layout_alignStart="@+id/loginButton"
-        android:layout_marginStart="13dp" />
-
-    <Button
-        android:text="登入"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/loginbtn"
-
-        android:layout_alignBaseline="@+id/signbtn"
-        android:layout_alignBottom="@+id/signbtn"
-        android:layout_toStartOf="@+id/loginButton" />
+    <ImageView
+        android:layout_width="112dp"
+        app:srcCompat="@drawable/logo"
+        android:id="@+id/imageView4"
+        android:scaleType="fitCenter"
+        android:layout_height="140dp"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="65dp"
+      />
 
     <com.facebook.login.widget.LoginButton
         android:id="@+id/loginButton"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:paddingBottom="10dp"
-        android:paddingTop="10dp"
-        android:layout_below="@+id/loginbtn"
-        android:layout_centerHorizontal="true" />
+        android:layout_width="290dp"
+        android:layout_height="16dp"
+        android:paddingBottom="12dp"
+        android:paddingTop="12dp"
+        android:gravity="center"
+        android:layout_above="@+id/loginbtn"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="21dp" />
 
-    <EditText
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:inputType="textEmailAddress"
-        android:ems="10"
-        android:layout_alignParentTop="true"
-        android:layout_alignParentStart="true"
-        android:id="@+id/editText" />
+    <Button
+        android:text="@string/signup"
+        android:layout_width="134dp"
+        android:layout_height="40dp"
+        android:id="@+id/signbtn"
+        android:textColor="@color/cardview_light_background"
+        android:background="@android:color/holo_red_dark"
+        android:layout_alignParentBottom="true"
+        android:layout_alignStart="@+id/loginButton" />
 
-    <EditText
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:inputType="textPassword"
-        android:ems="10"
-        android:layout_below="@+id/editText"
-        android:layout_alignEnd="@+id/editText"
-        android:id="@+id/editText2" />
+    <Button
+        android:text="@string/login"
+        android:layout_width="134dp"
+        android:layout_height="40dp"
+        android:id="@+id/loginbtn"
+        android:textColor="@color/cardview_light_background"
+        android:background="@android:color/holo_red_dark"
+        android:layout_alignParentBottom="true"
+        android:layout_alignEnd="@+id/loginButton" />
 
 
 </RelativeLayout>

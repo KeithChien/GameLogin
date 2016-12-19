@@ -38,9 +38,7 @@ import com.google.firebase.database.ValueEventListener;
 
 import java.util.Arrays;
 
-/**
- * Created by USER on 2016/12/14.
- */
+
 
 public class LoginActivity extends AppCompatActivity {
     private LoginButton loginButton;
@@ -49,42 +47,47 @@ public class LoginActivity extends AppCompatActivity {
     //Firebase的連結
     private FirebaseAuth mfirebaseAuth;
     private FirebaseAuth.AuthStateListener firebaseAuthListener;
-    FirebaseDatabase database ;
-    DatabaseReference myRef ;
+    FirebaseDatabase database;
+    DatabaseReference myRef;
 
     private Button getLoginButton2;
     private Button getSignin;
-    private EditText emailText ;
-    private EditText passWordText;
+    //private EditText emailText;
+   // private EditText passWordText;
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
-        FirebaseAuth auth =FirebaseAuth.getInstance();
 
-        emailText = (EditText) findViewById(R.id.editText);
-        passWordText = (EditText) findViewById(R.id.editText);
-        getLoginButton2 = (Button)findViewById(R.id.loginbtn);
-        getSignin = (Button)findViewById(R.id.signbtn);
+        FirebaseAuth auth = FirebaseAuth.getInstance();
 
-        //EMAIL登入
+       // emailText = (EditText) findViewById(R.id.editText);
+       //passWordText = (EditText) findViewById(R.id.editText);
+        getLoginButton2 = (Button) findViewById(R.id.loginbtn);
+        getSignin = (Button) findViewById(R.id.signbtn);
+
+      //EMAIL登入
         getLoginButton2.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startSingnin();
-                goMainScreen();
-            }
-        });
-        //EMAIL註冊
-        getSignin.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                creatUser();
+                Intent intentEmail = new Intent();
+                intentEmail.setClass(LoginActivity.this,EmailLoginActivity.class);
+                startActivity(intentEmail);
+
             }
         });
 
+        getSignin.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intentSignup = new Intent();
+                intentSignup.setClass(LoginActivity.this,SinginActivity.class);
+                startActivity(intentSignup);
+
+            }
+        });
 
 
         //Fb登入
@@ -98,10 +101,12 @@ public class LoginActivity extends AppCompatActivity {
                 handleFacebookAccessToken(loginResult.getAccessToken());
                 Log.d("", "facebookSuccess" + loginResult.getAccessToken());
             }
+
             @Override
             public void onCancel() {
 
             }
+
             @Override
             public void onError(FacebookException error) {
 
@@ -117,10 +122,9 @@ public class LoginActivity extends AppCompatActivity {
 
                 if (muser != null) {
 
-                  Log.d("TAG", "onAuthStateChanged:signed_in:" + muser.getUid());
+                    Log.d("TAG", "onAuthStateChanged:signed_in:" + muser.getUid());
                     goMainScreen();
-                }
-                else {
+                } else {
                     Log.d("TAG", "onAuthStateChanged:signed_out");
 
                 }
@@ -129,12 +133,13 @@ public class LoginActivity extends AppCompatActivity {
 
 
     }
+
     //獲取FB的使用者權杖並註冊為Firebase的用戶
     private void handleFacebookAccessToken(AccessToken accessToken) {
 
         Log.d("TAG", "handleFacebookAccessToken:" + accessToken);
         AuthCredential credential = FacebookAuthProvider.getCredential(accessToken.getToken());
-        Log.d("TAG",""+credential);
+        Log.d("TAG", "" + credential);
         //註冊Firebase用戶
         mfirebaseAuth.signInWithCredential(credential).addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
             @Override
@@ -147,15 +152,16 @@ public class LoginActivity extends AppCompatActivity {
                 //取得Firebase設置的使用者ID
                 String testUid = testUser.getUid();
 
-                   // myRef.setValue(testUid);
-                   Log.d("tag", testUid);
+                // myRef.setValue(testUid);
+                Log.d("tag", testUid);
 
-                   Intent intent = new Intent();
-                   intent.setClass(LoginActivity.this, MainActivity.class);
-                   Bundle bundle = new Bundle();
-                   bundle.putString("Id", testUid);
-                   intent.putExtras(bundle);
-                   startActivity(intent);
+                //myRef.startAt("windingram@hotmail.com").endAt("windingram@hotmail.com");
+                Intent intent = new Intent();
+                intent.setClass(LoginActivity.this, MainActivity.class);
+                Bundle bundle = new Bundle();
+                bundle.putString("Id", testUid);
+                intent.putExtras(bundle);
+                startActivity(intent);
 
 
                 if (!task.isSuccessful()) {
@@ -171,58 +177,21 @@ public class LoginActivity extends AppCompatActivity {
 
     }
 
-  private void goMainScreen() {
+    private void goMainScreen() {
         Intent intent = new Intent(LoginActivity.this, MainActivity.class);
         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
         startActivity(intent);
     }
 
-    private void startSingnin(){
-        String email = emailText.getText().toString();
-        String password = passWordText.getText().toString();
 
-        if(TextUtils.isEmpty(email) ||TextUtils.isEmpty(password) ) {
-            Toast.makeText(LoginActivity.this,"帳密不能為空",Toast.LENGTH_LONG).show();
-        }
-        else {
-            mfirebaseAuth.signInWithEmailAndPassword(email, password).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
-                @Override
-                public void onComplete(@NonNull Task<AuthResult> task) {
-                    Log.d("TAG", "signInWithEmail:onComplete:" + task.isSuccessful());
-                    if (!task.isSuccessful()) {
-                        Log.w("TAG", "signInWithEmail:failed", task.getException());
-                    }
-                }
-            });
-        }
-    }
 
-    private void creatUser(){
-        String email = emailText.getText().toString();
-        String password = passWordText.getText().toString();
-
-        if(TextUtils.isEmpty(email) ||TextUtils.isEmpty(password) ) {
-            Toast.makeText(LoginActivity.this,"帳密不能為空",Toast.LENGTH_LONG).show();
-        }
-        else {
-            mfirebaseAuth.createUserWithEmailAndPassword(email, password).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
-                @Override
-                public void onComplete(@NonNull Task<AuthResult> task) {
-                    Log.d("TAG", "signInWithEmail:onComplete:" + task.isSuccessful());
-                    if (!task.isSuccessful()) {
-                        Log.w("TAG", "signInWithEmail:failed", task.getException());
-                    }
-                }
-            });
-        }
-
-    }
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         callbackManager.onActivityResult(requestCode, resultCode, data);
     }
+
     @Override
     protected void onStart() {
         super.onStart();
@@ -232,12 +201,9 @@ public class LoginActivity extends AppCompatActivity {
     @Override
     protected void onStop() {
         super.onStop();
-        if(firebaseAuthListener!=null) {
+        if (firebaseAuthListener != null) {
             mfirebaseAuth.removeAuthStateListener(firebaseAuthListener);
         }
+
     }
-
-
-
-
 }

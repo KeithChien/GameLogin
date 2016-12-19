@@ -37,9 +37,9 @@ public class MainActivity extends AppCompatActivity {
         //接收Bundle
         Intent intent = this.getIntent();
         Bundle bundle = intent.getExtras();
-        String tid = bundle.getString("Id");
+      //  String tid = bundle.getString("Id");
 
-        nameTextView.setText(tid);
+        //nameTextView.setText(tid);
 
         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
         if (user != null) {
