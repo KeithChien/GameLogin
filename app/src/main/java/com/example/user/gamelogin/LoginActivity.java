@@ -155,7 +155,7 @@ public class LoginActivity extends AppCompatActivity {
                 // myRef.setValue(testUid);
                 Log.d("tag", testUid);
 
-                //myRef.startAt("windingram@hotmail.com").endAt("windingram@hotmail.com");
+
                 Intent intent = new Intent();
                 intent.setClass(LoginActivity.this, MainActivity.class);
                 Bundle bundle = new Bundle();
